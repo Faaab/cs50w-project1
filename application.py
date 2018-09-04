@@ -1,4 +1,6 @@
 import os
+import sys
+import hashlib
 
 from flask import Flask, session, render_template, request
 from flask_session import Session
@@ -30,8 +32,33 @@ def register():
     """Let users register"""
 
     if request.method == "POST":
-        #Do all the steps for registration
-        return "TODO"
+
+        #Check if all fields were filled in
+
+        if not request.form.get("username"):
+            return render_template("sorry.html", error="Username field not filled in")
+
+        elif not request.form.get("password"):
+            return render_template("sorry.html", error="Password field not filled in")
+
+        elif not request.form.get("passwordConfirm"):
+            return render_template("sorry.html", error="Password confirmation field not filled in")
+
+        #Get all fields from the form
+        username = request.form.get("username")
+        password = request.form.get("password")
+        passwordConfirm = request.form.get("passwordConfirm")
+
+        ## DEBUG:
+        print(username, file=sys.stderr)
+        print(password, file=sys.stderr)
+        print(passwordConfirm, file=sys.stderr)
+
+        #Check form for correctness
+        if not password == passwordConfirm:
+            return render_template("sorry.html", error="Passwords did not match")
+
+        return render_template("registercomplete.html")
 
     else:
         return render_template("register.html")
