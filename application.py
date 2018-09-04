@@ -2,6 +2,8 @@ import os
 import sys
 import hashlib
 
+import helpers
+
 from flask import Flask, session, render_template, request
 from flask_session import Session
 from sqlalchemy import create_engine
@@ -57,6 +59,9 @@ def register():
         #Check form for correctness
         if not password == passwordConfirm:
             return render_template("sorry.html", error="Passwords did not match")
+
+        #Store the username and hashed password in the database
+
 
         return render_template("registercomplete.html")
 
