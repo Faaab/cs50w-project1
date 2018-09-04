@@ -1,0 +1,23 @@
+{% extends 'landing.html' %}
+
+{% block title %}
+<title>Welcome to Project1: Books!</title>
+{% endblock %}
+
+{% block body %}
+  <h1>Please log in:</h1>
+
+  <form class="form-inline" action="/login" method="post">
+
+    <div>
+      <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+    </div>
+
+    <div>
+      <input class="form-control" name="password" placeholder-"Password" type="password"/>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Log in</button>
+
+  </form>
+{% endblock %}
