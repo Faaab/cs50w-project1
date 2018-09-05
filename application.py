@@ -1,7 +1,7 @@
 import os
 import sys
 
-import helpers
+from helpers import hash_password, check_password
 
 from flask import Flask, session, render_template, request
 from flask_session import Session
@@ -28,6 +28,7 @@ db = scoped_session(sessionmaker(bind=engine))
 def index():
     return render_template("welcome.html")
 
+#If we get here via GET -> show form. If we get here via POST -> register user.
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Let users register"""
@@ -35,7 +36,6 @@ def register():
     if request.method == "POST":
 
         #Check if all fields were filled in
-
         if not request.form.get("username"):
             return render_template("sorry.html", error="Username field not filled in")
 
@@ -60,7 +60,10 @@ def register():
             return render_template("sorry.html", error="Passwords did not match")
 
         #Store the username and hashed password in the database
-
+        hashedPassword = hash_password(password)
+        db.execute("INSERT INTO users (username, passwordhash) VALUES (:username, :hashedPassword)",
+            {"username": username, "hashedPassword": hashedPassword})
+        db.commit()
 
         return render_template("registercomplete.html")
 
