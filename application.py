@@ -125,10 +125,12 @@ def register():
 @app.route("/loginhome")
 @login_required
 def loginhome():
+    """This is the first page you get to after logging in."""
     return render_template("loginhome.html")
 
 @app.route("/logout")
 @login_required
 def logout():
+    """Removes the user from the session, logging them out"""
     session.pop("user", None)
-    return redirect("/")
+    return render_template("goodbye.html")
