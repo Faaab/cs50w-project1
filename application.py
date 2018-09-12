@@ -14,6 +14,9 @@ app = Flask(__name__)
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
 
+# Configure app's secret key for cookie signing
+app.secret_key = os.urandom(24)
+
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -24,9 +27,15 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("welcome.html")
+    # POST-request to this route means the user tries to log in
+    if request.method == "POST"
+        return "TODO"
+
+    # Branch for GET-request to index page; prompt for login
+    else:
+        return render_template("welcome.html")
 
 #If we get here via GET -> show form. If we get here via POST -> register user.
 @app.route("/register", methods=["GET", "POST"])
