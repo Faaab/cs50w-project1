@@ -105,22 +105,20 @@ def register():
         if not password == passwordConfirm:
             return render_template("sorry.html", error="Passwords did not match")
 
+        # Check whether we have an entry with that username
+        userrow = db.execute("SELECT * FROM users WHERE username = :username", {"username": username})
+        if not userrow:
+            # If we do not have an entry with that username, store the username and hashed password in the database
+            hashedPassword = hash_password(password)
+            db.execute("INSERT INTO users (username, passwordhash) VALUES (:username, :hashedPassword)",
+                {"username": username, "hashedPassword": hashedPassword})
+            db.commit()
+            return render_template("registercomplete.html")
 
+        else:
+            return render_template("sorry.html", error="That username is taken.")
 
-
-        # TODO TODO TODO TODO CHECK WHETHER THAT USERNAME ALREADY EXISTS
-
-
-
-
-        #Store the username and hashed password in the database
-        hashedPassword = hash_password(password)
-        db.execute("INSERT INTO users (username, passwordhash) VALUES (:username, :hashedPassword)",
-            {"username": username, "hashedPassword": hashedPassword})
-        db.commit()
-
-        return render_template("registercomplete.html")
-
+    # GET-method for register: present register form
     else:
         return render_template("register.html")
 
