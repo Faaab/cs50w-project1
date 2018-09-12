@@ -44,19 +44,27 @@ def index():
         password = request.form.get("password")
 
         # Query database for user
-        userrows = db.execute("SELECT * FROM users WHERE username = :username",
+        userrow = db.execute("SELECT * FROM users WHERE username = :username",
             {"username": username}).fetchone()
 
-        # If we get no data back here, the user is not in our database
-        # # DEBUG: It works up to here.
-        if userrows.rowcount == 0:
+        # If we get no data back here, the user is not in our database=
+        if userrow.rowcount == 0:
             return render_template("sorry.html", error="We could not find that username. Have you signed up yet?")
+
+        #TODO: Get data from userrow
+        
+
+
+
 
         # DEBUG:
         print("DEBUGGING INFO:", file=sys.stderr)
-        print(userrows, file=sys.stderr)
         for row in userrows:
             print(row['username'])
+
+
+
+
 
         # We found the user. Continue to check if filled-in password was correct
         if not check_password(userrows["passwordhash"], password):
