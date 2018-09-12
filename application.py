@@ -44,15 +44,22 @@ def index():
         password = request.form.get("password")
 
         # Query database for user
-        user = db.execute("SELECT * FROM users WHERE username = :username",
-            {"username": username})
+        userrows = db.execute("SELECT * FROM users WHERE username = :username",
+            {"username": username}).fetchone()
 
         # If we get no data back here, the user is not in our database
-        if user.rowcount == 0:
+        # # DEBUG: It works up to here.
+        if userrows.rowcount == 0:
             return render_template("sorry.html", error="We could not find that username. Have you signed up yet?")
 
+        # DEBUG:
+        print("DEBUGGING INFO:", file=sys.stderr)
+        print(userrows, file=sys.stderr)
+        for row in userrows:
+            print(row['username'])
+
         # We found the user. Continue to check if filled-in password was correct
-        if not check_password(user["passwordhash"], password):
+        if not check_password(userrows["passwordhash"], password):
             return render_template("sorry.html", error="Password incorrect.")
 
         # If we get here, we found the user and the password is correct. Continue to log in.
@@ -95,6 +102,14 @@ def register():
         #Check form for correctness
         if not password == passwordConfirm:
             return render_template("sorry.html", error="Passwords did not match")
+
+
+
+
+        # TODO TODO TODO TODO CHECK WHETHER THAT USERNAME ALREADY EXISTS
+
+
+
 
         #Store the username and hashed password in the database
         hashedPassword = hash_password(password)
