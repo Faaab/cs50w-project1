@@ -48,12 +48,19 @@ def index():
         user = db.execute("SELECT passwordhash FROM users WHERE username = :username",
             {"username": username})
 
+        # If we get no data back here, the user is not in our database
         if not user:
             return render_template("sorry.html", error="We could not find that username. Have you signed up yet?")
 
+        # We found the user. Continue to check if filled-in password was correct
+        if not check_password(user["passwordhash"], password):
+            return render_template("sorry.html", error="Password incorrect.")
 
+        # If we get here, we found the user and the password is correct. Continue to log in.
+        else:
+            session["user"] = username
 
-        return "TODO"
+        return session["user"]
 
     # Branch for GET-request to index page; prompt for login
     else:
