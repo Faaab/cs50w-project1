@@ -62,9 +62,8 @@ def index():
         # If we get here, we found the user and the password is correct. Continue to log in.
         else:
             session["user"] = username
-
-        ## DEBUG: Let the user know his username, to confirm login
-        return session["user"]
+            ## DEBUG: Let the user know his username, to confirm login
+            return session["user"]
 
     # Branch for GET-request to index page; prompt for login
     else:
