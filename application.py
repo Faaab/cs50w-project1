@@ -53,15 +53,7 @@ def index():
 
         # Get passwordhash from userrow
         for row in userrow:
-            userhash = row['passwordhash']
-
-        # DEBUG:
-        print("DEBUGGING INFO (userhash):", file=sys.stderr)
-        print(userhash, file=sys.stderr)
-
-
-
-
+            userhash = row
 
         # We found the user. Continue to check if filled-in password was correct
         if not check_password(userhash, password):
@@ -71,6 +63,7 @@ def index():
         else:
             session["user"] = username
 
+        ## DEBUG: Let the user know his username, to confirm login
         return session["user"]
 
     # Branch for GET-request to index page; prompt for login
