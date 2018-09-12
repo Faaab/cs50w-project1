@@ -67,7 +67,12 @@ def index():
 
     # Branch for GET-request to index page; prompt for login
     else:
-        return render_template("welcome.html")
+        if session.get("user") is None:
+            return render_template("welcome.html")
+
+        else:
+            redirect("/loginhome")
+
 
 #If we get here via GET -> show form. If we get here via POST -> register user.
 @app.route("/register", methods=["GET", "POST"])
