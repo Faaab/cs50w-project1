@@ -70,7 +70,7 @@ def index():
             return render_template("welcome.html")
 
         else:
-            redirect("/loginhome")
+            return redirect("/loginhome")
 
 
 #If we get here via GET -> show form. If we get here via POST -> register user.
