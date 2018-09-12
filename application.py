@@ -1,9 +1,9 @@
 import os
 import sys
 
-from helpers import hash_password, check_password
+from helpers import hash_password, check_password, login_required
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -63,7 +63,7 @@ def index():
         else:
             session["user"] = username
             ## DEBUG: Let the user know his username, to confirm login
-            return session["user"]
+            return redirect("/loginhome")
 
     # Branch for GET-request to index page; prompt for login
     else:
@@ -118,3 +118,8 @@ def register():
 
     else:
         return render_template("register.html")
+
+@app.route("/loginhome")
+@login_required
+def loginhome():
+    return render_template("loginhome.html")
