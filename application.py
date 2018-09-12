@@ -30,7 +30,19 @@ db = scoped_session(sessionmaker(bind=engine))
 @app.route("/", methods=["GET", "POST"])
 def index():
     # POST-request to this route means the user tries to log in
-    if request.method == "POST"
+    if request.method == "POST":
+
+        # Check if all required fields were filled in
+        if not request.form.get("username"):
+            return render_template("sorry.html", error="Username field not filled in")
+
+        if not request.form.get("password"):
+            return render_template("sorry.html", error="Must fill in password")
+
+        
+
+
+
         return "TODO"
 
     # Branch for GET-request to index page; prompt for login
