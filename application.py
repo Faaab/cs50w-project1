@@ -126,3 +126,9 @@ def register():
 @login_required
 def loginhome():
     return render_template("loginhome.html")
+
+@app.route("/logout")
+@login_required
+def logout():
+    session.pop("user", None)
+    return redirect("/")
