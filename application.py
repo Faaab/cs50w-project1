@@ -39,7 +39,17 @@ def index():
         if not request.form.get("password"):
             return render_template("sorry.html", error="Must fill in password")
 
-        
+        # Get data from form
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # Query database for user
+        # TODO Check what info is in this table, and what we should query for
+        user = db.execute("SELECT passwordhash FROM users WHERE username = :username",
+            {"username": username})
+
+        if not user:
+            return render_template("sorry.html", error="We could not find that username. Have you signed up yet?")
 
 
 
