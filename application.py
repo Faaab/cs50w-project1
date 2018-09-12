@@ -44,12 +44,11 @@ def index():
         password = request.form.get("password")
 
         # Query database for user
-        # TODO Check what info is in this table, and what we should query for
-        user = db.execute("SELECT passwordhash FROM users WHERE username = :username",
+        user = db.execute("SELECT * FROM users WHERE username = :username",
             {"username": username})
 
         # If we get no data back here, the user is not in our database
-        if not user:
+        if user.rowcount == 0:
             return render_template("sorry.html", error="We could not find that username. Have you signed up yet?")
 
         # We found the user. Continue to check if filled-in password was correct
