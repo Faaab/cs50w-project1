@@ -62,7 +62,6 @@ def index():
         # If we get here, we found the user and the password is correct. Continue to log in.
         else:
             session["user"] = username
-            ## DEBUG: Let the user know his username, to confirm login
             return redirect("/loginhome")
 
     # Branch for GET-request to index page; prompt for login
@@ -115,6 +114,7 @@ def register():
             db.commit()
             return render_template("registercomplete.html")
 
+        # If a row with that username was found, apologize to user
         else:
             return render_template("sorry.html", error="That username is taken.")
 
