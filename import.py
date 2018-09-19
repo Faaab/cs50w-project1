@@ -13,6 +13,7 @@ and must be run from the CLI with 'python3 import'."""
 # db = scoped_session(sessionmaker(bind=engine))
 
 # TODO TODO TODO TODO TODO TODO
+## SQL code for creating table:
 # db.execute("CREATE TABLE books (
 #     isbn INTEGER PRIMARY KEY,
 #     title VARCHAR NOT NULL,
@@ -20,10 +21,19 @@ and must be run from the CLI with 'python3 import'."""
 #     year INTEGER NOT NULL
 # )")
 
+## SQL code for inserting row:
+# db.execute("INSERT INTO books (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)",
+#             {'isbn': isbn, 'title': title, 'author': author, 'year': year})
+# db.commit()
+
 def main():
     with open('books.csv', 'r') as books_csv:
         csv_reader = csv.reader(books_csv)
 
+        # Skip first row in csv, since this holds names of columns, not actual data
+        next(csv_reader)
+
+        # Print to terminal, just for testing
         for isbn, title, author, year in csv_reader:
             print(f"Added row to table: isbn = {isbn}, title = {title}, author = {author}, year = {year}. JK.")
 
