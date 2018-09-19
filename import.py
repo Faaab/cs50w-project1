@@ -14,11 +14,15 @@ and must be run from the CLI with 'python3 import'."""
 #     year INTEGER NOT NULL
 # )")
 
-with open('books.csv', 'r') as books_csv:
-    csv_reader = csv.reader(books_csv)
+def main:
+    with open('books.csv', 'r') as books_csv:
+        csv_reader = csv.reader(books_csv)
 
-    for isbn, title, author, year in csv_reader:
-        print(isbn)
-        print(title)
-        print(author)
-        print(year)
+        for isbn, title, author, year in csv_reader:
+            print(isbn)
+            print(title)
+            print(author)
+            print(year)
+
+if __name__ == "__main__":
+    main()
