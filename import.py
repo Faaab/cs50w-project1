@@ -17,5 +17,8 @@ and must be run from the CLI with 'python3 import'."""
 with open('books.csv', 'r') as books_csv:
     csv_reader = csv.reader(books_csv)
 
-    for line in csv_reader:
-        print(line, sys.stderr)
+    for isbn, title, author, year in csv_reader:
+        print(isbn)
+        print(title)
+        print(author)
+        print(year)
