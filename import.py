@@ -1,5 +1,8 @@
 import csv
-import sys
+import os
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 """In this file, you will find a function that imports all data from a .csv-file to the PostgreSQL
 database that is linked to application.py. It is not part of the webapp contained in application.py,
