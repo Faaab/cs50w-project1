@@ -6,6 +6,7 @@
   <meta name="viewport" content="width-device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <span class="navbar-text">Project1: Books</span>
@@ -18,6 +19,13 @@
         <a class="nav-link" href="/logout">Logout</a>
       </li>
     </ul>
+
+    <form action="/search" method="get">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search..." autofocus name="search"/>
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
   </nav>
 
   {% block body %}
