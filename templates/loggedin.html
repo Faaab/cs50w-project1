@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width-device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="sylesheet" href="customstyling.css">
 </head>
 
 <body>
@@ -12,38 +13,28 @@
     <div class="container-fluid">
       <span class="navbar-text">Project1: Books</span>
 
-      <!-- <div class="input-group">
       <form class="navbar-form" action="/search" method="get">
-      <div class="form-group">
-      <input type="text" class="form-control" placeholder="Search..." autofocus name="search"/>
-    </div>
-
-    <div class="input-group-btn">
-    <button type="submit" class="btn btn-primary">Search</button>
-  </div> -->
-
-  <form class="navbar-form navbar-center" action="/search" method="get">
-    <div class="form-group">
-      <div class="input-group mb-3">
-        <div class="col-xs-3">
-          <input type="text" class="form-control" placeholder="Search..." autofocus name="search">
+        <div class="centerthis">
+          <div class="input-group mb-3">
+            <div class="col-xs-3">
+              <input type="text" class="form-control" placeholder="Search..." autofocus name="search">
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit">Go!</button>
+            </div>
+          </div>
         </div>
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="submit">Go!</button>
-        </div>
-      </div>
-    </div>
-  </form>
+      </form>
 
-</form>
-</div>
+    </form>
+  </div>
 
 
-<ul class="navbar-nav">
-  <li class="nav-item">
-    <a class="nav-link" href="/logout">Logout</a>
-  </li>
-</ul>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">Logout</a>
+    </li>
+  </ul>
 
 </div>
 </nav>
