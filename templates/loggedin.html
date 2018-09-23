@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width-device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel="sylesheet" href="templates/customstyling.css">
+  <link rel="sylesheet" href="styles.css">
 </head>
 
 <body>
@@ -13,8 +13,7 @@
     <div class="container-fluid">
       <span class="navbar-text">Project1: Books</span>
 
-      <form class="navbar-form" action="/search" method="get">
-        <div class="centerthis">
+      <form class="navbar-form" action="/search" method="post">
           <div class="input-group mb-3">
             <div class="col-xs-3">
               <input type="text" class="form-control" placeholder="Search..." autofocus name="search">
@@ -23,7 +22,6 @@
               <button class="btn btn-primary" type="submit">Go!</button>
             </div>
           </div>
-        </div>
       </form>
 
     </form>

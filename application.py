@@ -122,6 +122,14 @@ def register():
     else:
         return render_template("register.html")
 
+@app.route("/search", methods=["POST"])
+def search():
+    #get search query from request
+    q = request.form.get("search")
+    print(q)
+
+    return render_template("search.html", query=q)
+
 @app.route("/loginhome")
 @login_required
 def loginhome():
