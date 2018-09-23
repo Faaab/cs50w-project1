@@ -14,7 +14,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 def main():
     # Create table to import data into
-    db.execute("CREATE TABLE books (id SERIAL PRIMARY KEY, isbn VARCHAR NOT NULL, title VARCHAR NOT NULL, author VARCHAR NOT NULL, year INTEGER NOT NULL)")
+    db.execute("CREATE TABLE books (id SERIAL PRIMARY KEY, isbn VARCHAR NOT NULL, title VARCHAR NOT NULL, author VARCHAR NOT NULL, year VARCHAR NOT NULL)")
 
     with open('books.csv', 'r') as books_csv:
         csv_reader = csv.reader(books_csv)
