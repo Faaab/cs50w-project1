@@ -126,8 +126,10 @@ def register():
 def search():
     #get search query from request
     q = request.form.get("search")
+    q = "%" + q + "%"
+    print(q)
 
-    result = db.execute("SELECT * FROM books WHERE year LIKE ':q'",
+    result = db.execute("SELECT * FROM books WHERE year LIKE :q",
                 {"q": q})
 
     for row in result:
