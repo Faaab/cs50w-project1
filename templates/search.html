@@ -8,7 +8,7 @@ data from our database. Below, each inner list (i.e. row) contains: [isbn, title
   <h1>Results: </h1><br>
   {% if result_list|length > 0 %}
     {% for row in result_list %}
-        <h1><i>{{ row[1] }}</i> - {{ row[2] }} ({{ row[3] }})</h1>
+        <h1><a href="/book/{{ row[4] }}"><i>{{ row[1] }}</i> - {{ row[2] }} ({{ row[3] }})</a></h1>
         <h5>ISBN: {{ row[0] }}</h5>
       <hr>
     {% endfor %}

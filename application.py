@@ -131,7 +131,7 @@ def search():
 
     # Search database for any entry containing this set of characters
     # NB: Search is case-sensitive now, although this was not my intent. Not yet sure how to fix it.
-    result = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE :q OR title LIKE :q OR author LIKE :q OR year LIKE :q",
+    result = db.execute("SELECT isbn, title, author, year, id FROM books WHERE isbn LIKE :q OR title LIKE :q OR author LIKE :q OR year LIKE :q",
                 {"q": q})
 
     # The data will be given to the template in a list, where each row is represented by another list
@@ -140,7 +140,7 @@ def search():
     # In this loop, result and the rows therein are converted to lists; result_list containing row_lists
     for row in result:
         row_list = []
-        for i in range(4):
+        for i in range(5):
             row_list.append(row[i])
 
         result_list.append(row_list)
@@ -163,10 +163,11 @@ def book(id):
 
     #DEBUG print statements
     for row in result:
-        print(row)
+        book_data = row
+        print(book_data)
     print(id)
 
-    return 'TODO'
+    return render_template("book.html", book_data=book_data)
 
 @app.route("/loginhome")
 @login_required
