@@ -1,8 +1,11 @@
 {% extends 'loggedin.html' %}
 
 {% block body %}
-  <center>
-    <h1><i>{{ title }}</i> - {{ author }} ({{ year }})</h1>
-    <h5>ISBN: {{ isbn }}</h5>
-  </center>
+  {% for row in result_list %}
+    <center>
+      <h1><i>{{ row[1] }}</i> - {{ row[2] }} ({{ row[3] }})</h1>
+      <h5>ISBN: {{ row[0] }}</h5>
+    </center>
+    <hr>
+  {% endfor %}
 {% endblock %}
