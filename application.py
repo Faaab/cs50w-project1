@@ -145,6 +145,10 @@ def search():
 
         result_list.append(row_list)
 
+    # NB: with each SELECT query, a connection to the database remains open, even with the below
+    # (connections are closed after several minutes)
+    result.close()
+
     # Give result_list to the Jinja template, which will create a list of search results
     return render_template("search.html", result_list=result_list)
 
