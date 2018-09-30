@@ -152,6 +152,22 @@ def search():
     # Give result_list to the Jinja template, which will create a list of search results
     return render_template("search.html", result_list=result_list)
 
+@app.route("/book/<id>")
+def book(id):
+    """This will take the id of a book, search for that id in our database and return a page with
+    info on the book. Once implemented, this page will also display the average score of the book
+    on Goodreads, display a form to leave a review, and display all existing reviews for the book."""
+
+    result = db.execute("SELECT isbn, title, author, year FROM books WHERE id = :id",
+    {"id": id})
+
+    #DEBUG print statements
+    for row in result:
+        print(row)
+    print(id)
+
+    return 'TODO'
+
 @app.route("/loginhome")
 @login_required
 def loginhome():
