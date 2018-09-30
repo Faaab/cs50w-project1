@@ -130,12 +130,14 @@ def search():
     print(q)
 
     # Search database for any entry containing this set of characters
+    # NB: Search is case-sensitive now, although this was not my intent. Not yet sure how to fix it.
     result = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE :q OR title LIKE :q OR author LIKE :q OR year LIKE :q",
                 {"q": q})
 
-    # The data will be given to the template in a list of lists
+    # The data will be given to the template in a list, where each row is represented by another list
     result_list = []
 
+    # In this loop, result and the rows therein are converted to lists; result_list containing row_lists
     for row in result:
         row_list = []
         for i in range(4):
@@ -143,9 +145,7 @@ def search():
 
         result_list.append(row_list)
 
-        #DEBUG
-        print(row_list)
-
+    # Give result_list to the Jinja template, which will create a list of search results
     return render_template("search.html", result_list=result_list)
 
 @app.route("/loginhome")

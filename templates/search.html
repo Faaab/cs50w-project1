@@ -1,11 +1,20 @@
+<!-- Returned by /search path in application.py. Result_list is a list of lists with
+data from our database. Below, each inner list (i.e. row) contains: [isbn, title, author, year] -->
+
 {% extends 'loggedin.html' %}
 
 {% block body %}
-  {% for row in result_list %}
-    <center>
-      <h1><i>{{ row[1] }}</i> - {{ row[2] }} ({{ row[3] }})</h1>
-      <h5>ISBN: {{ row[0] }}</h5>
-    </center>
-    <hr>
-  {% endfor %}
+<center>
+  <h1>Results: </h1><br>
+  {% if result_list|length > 0 %}
+    {% for row in result_list %}
+        <h1><i>{{ row[1] }}</i> - {{ row[2] }} ({{ row[3] }})</h1>
+        <h5>ISBN: {{ row[0] }}</h5>
+      <hr>
+    {% endfor %}
+  {% else %}
+    <i><h1>None.</h1>
+    <h5>Please note that our search function is case-sensitive as of now. Please try again.</h5></i>
+  {% endif %}
+</center>
 {% endblock %}
