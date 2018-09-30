@@ -129,11 +129,11 @@ def search():
     q = "%" + q + "%"
     print(q)
 
-    result = db.execute("SELECT * FROM books WHERE year LIKE :q",
+    result = db.execute("SELECT isbn, title, author, year FROM books WHERE isbn LIKE :q OR title LIKE :q OR author LIKE :q OR year LIKE :q",
                 {"q": q})
 
     for row in result:
-        print(row)
+        print(row[2])
 
     return render_template("search.html", query=q)
 
