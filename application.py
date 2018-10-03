@@ -161,8 +161,9 @@ def search():
 @app.route("/book/<id>")
 def book(id):
     """This will take the id of a book, search for that id in our database and return a page with
-    info on the book. Once implemented, this page will also display the average score of the book
-    on Goodreads, display a form to leave a review, and display all existing reviews for the book."""
+    info on the book. Part of that info is an average score on Goodreads. This data is retrieved
+    using a query to the Goodreads API. Once implemented, this page will also display a form to
+    leave a review, and display all existing reviews for the book."""
 
     # Get data about book from database
     result = db.execute("SELECT isbn, title, author, year FROM books WHERE id = :id",
@@ -172,19 +173,20 @@ def book(id):
     for row in result:
         book_data = dict(row)
 
-    # Build a URL to query Goodreads API, using ISBN and the globally defined developer key
+    # Build a URL to query Goodreads API (book.review_counts function), using ISBN and the globally
+    # defined developer key as parameters
     base_url = "https://www.goodreads.com/book/review_counts.json?"
     query_parameters = {"isbns": book_data['isbn'], "key": developer_key}
     full_url = base_url + urllib.parse.urlencode(query_parameters)
 
-    # Make HTTP request to the URL built above, and get data we need from JSON response
+    # Make HTTP request to the URL built above
     json_data = requests.get(full_url).json()
-    average_rating = json_data['books'][0]['average_rating']
-    book_data['average_rating'] = average_rating
-    print (book_data)
 
-    # NB: Don't forget to implement error handling. We'll get status 422 in the HTTP response
-    # if no ISBNS are specified, and 404 if nothing was found.
+    # Get data we need (average_rating) from the JSON response
+    average_rating = json_data['books'][0]['average_rating']
+    if not average_rating:
+        average_rating = "Not found"
+    book_data['average_rating'] = average_rating
 
     return render_template("book.html", book_data=book_data)
 
