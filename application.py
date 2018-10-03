@@ -168,22 +168,21 @@ def book(id):
     result = db.execute("SELECT isbn, title, author, year FROM books WHERE id = :id",
     {"id": id})
 
-    # Store isbn, title, author, year (in that order) in list book_data
+    # Store isbn, title, author, year (in that order) in book_data
     for row in result:
-        book_data = row
+        book_data = dict(row)
 
     print(book_data)
     # Build a URL to query Goodreads API, using ISBN and the globally defined developer key
     base_url = "https://www.goodreads.com/book/review_counts.json?"
-    query_parameters = {"isbns": book_data[0], "key": developer_key}
+    query_parameters = {"isbns": book_data['isbn'], "key": developer_key}
     full_url = base_url + urllib.parse.urlencode(query_parameters)
 
-    # TODO: Query Goodreads API for average score and append to book_data, then modify book.html to
-    # support new data
+    # Make HTTP request to the URL built above, and get data we need from JSON response
     json_data = requests.get(full_url).json()
-    print(json_data)
-    print(json_data['books'][0]['average_rating'])
     average_rating = json_data['books'][0]['average_rating']
+    print(average_rating)
+    # TODO TODO Figure out how to add this data to book_data (since this is now an object of type RowProxy)
     # book_data[4] = average_rating
     # print(book_data)
 
