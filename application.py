@@ -158,7 +158,7 @@ def search():
     # Give result_list to the Jinja template, which will create a list of search results
     return render_template("search.html", result_list=result_list)
 
-@app.route("/book/<id>" methods=["GET", "POST"])
+@app.route("/book/<id>", methods=["GET", "POST"])
 def book(id):
     """The GET-method for this page will take the id of a book, search for that id in our database and return a page with
     info on the book. Part of that info is an average score on Goodreads. This data is retrieved
@@ -181,6 +181,9 @@ def book(id):
         # Store isbn, title, author, year (in that order) in book_data
         for row in result:
             book_data = dict(row)
+
+        # add book id to book_data
+        book_data['id'] = id
 
         # Build a URL to query Goodreads API (book.review_counts function), using ISBN and the globally
         # defined developer key as parameters
