@@ -178,7 +178,6 @@ def book(id):
     base_url = "https://www.goodreads.com/book/review_counts.json?"
     query_parameters = {"isbns": book_data['isbn'], "key": developer_key}
     full_url = base_url + urllib.parse.urlencode(query_parameters)
-    print(full_url)
 
     # Make HTTP request to the URL built above
     json_data = requests.get(full_url).json()
