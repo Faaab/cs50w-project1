@@ -6,13 +6,13 @@ Book_data: [isbn, title, author, year]
 
 {% block body %}
   <center>
-    <h1><i>{{ book_data[1] }}</i></h1><br>
-    <h3>written by {{ book_data[2] }}</h3><br>
-    <h5>Published in {{ book_data[3] }}<br>
-    ISBN: {{ book_data[0] }}<br>
+    <h1><i>{{ book_data['title'] }}</i></h1><br>
+    <h3>written by {{ book_data['author'] }}</h3><br>
+    <h5>Published in {{ book_data['year'] }}<br>
+    ISBN: {{ book_data['isbn'] }}<br>
+    Average Goodreads rating: {{ book_data['average_rating'] }}<br>
     <br>
     TODO:<br>
-    Average Goodreads score<br>
     Leave a review<br>
     Read reviews</h5>
   </center>

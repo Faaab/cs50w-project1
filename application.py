@@ -172,7 +172,6 @@ def book(id):
     for row in result:
         book_data = dict(row)
 
-    print(book_data)
     # Build a URL to query Goodreads API, using ISBN and the globally defined developer key
     base_url = "https://www.goodreads.com/book/review_counts.json?"
     query_parameters = {"isbns": book_data['isbn'], "key": developer_key}
@@ -181,14 +180,8 @@ def book(id):
     # Make HTTP request to the URL built above, and get data we need from JSON response
     json_data = requests.get(full_url).json()
     average_rating = json_data['books'][0]['average_rating']
-    print(average_rating)
-    # TODO TODO Figure out how to add this data to book_data (since this is now an object of type RowProxy)
-    # book_data[4] = average_rating
-    # print(book_data)
-
-    # Response JSON structure: Dict with one key 'books'. Value of 'books' is a list of books. Each
-    # index is a dict with several keys. The key we need is called "average_rating". Value is a string
-    # containing a number in the format "x.xx"
+    book_data['average_rating'] = average_rating
+    print (book_data)
 
     # NB: Don't forget to implement error handling. We'll get status 422 in the HTTP response
     # if no ISBNS are specified, and 404 if nothing was found.
