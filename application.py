@@ -13,6 +13,9 @@ import urllib.parse
 
 app = Flask(__name__)
 
+# key for querying Goodreads API
+developer_key = 'eBVKMxIKL8SGityQc5TOg'
+
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
