@@ -178,15 +178,18 @@ def book(id):
     base_url = "https://www.goodreads.com/book/review_counts.json?"
     query_parameters = {"isbns": book_data['isbn'], "key": developer_key}
     full_url = base_url + urllib.parse.urlencode(query_parameters)
+    print(full_url)
 
     # Make HTTP request to the URL built above
     json_data = requests.get(full_url).json()
 
     # Get data we need (average_rating) from the JSON response
     average_rating = json_data['books'][0]['average_rating']
+    number_ratings = json_data['books'][0]['work_ratings_count']
     if not average_rating:
         average_rating = "Not found"
     book_data['average_rating'] = average_rating
+    book_data['number_ratings'] = number_ratings
 
     return render_template("book.html", book_data=book_data)
 

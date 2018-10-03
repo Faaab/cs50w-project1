@@ -1,5 +1,5 @@
 <!--
-Book_data: [isbn, title, author, year]
+Book_data is a dict with keys: title, author, year, isbn, average_rating, number_ratings
 -->
 
 {% extends 'loggedin.html' %}
@@ -10,7 +10,9 @@ Book_data: [isbn, title, author, year]
     <h3>written by {{ book_data['author'] }}</h3><br>
     <h5>Published in {{ book_data['year'] }}<br>
     ISBN: {{ book_data['isbn'] }}<br>
+    <br>
     Average Goodreads rating: {{ book_data['average_rating'] }}<br>
+    Number of ratings: {{ book_data['number_ratings'] }}<br>
     <br>
     TODO:<br>
     Leave a review<br>
