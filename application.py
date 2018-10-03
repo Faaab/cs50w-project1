@@ -168,14 +168,17 @@ def book(id):
     result = db.execute("SELECT isbn, title, author, year FROM books WHERE id = :id",
     {"id": id})
 
-    # Store data in list book_data
+    # Store isbn, title, author, year (in that order) in list book_data
     for row in result:
         book_data = row
 
+    # Build a URL to query Goodreads API, using ISBN and the globally defined developer key
+    base_url = "https://www.goodreads.com/book/review_counts.json?"
+    query_parameters = {"isbns": book_data[0], "key": developer_key}
+    full_url = base_url + urllib.parse.urlencode(query_parameters)
+
     # TODO: Query Goodreads API for average score and append to book_data, then modify book.html to
     # support new data
-    # TODO: Template URL for querying Goodreads API:
-    # "https://www.goodreads.com/book/review_counts.json?isbns=" + book_isbn + "&key=" + my_developer_key
     # Response JSON structure: Dict with one key 'books'. Value of 'books' is a list of books. Each
     # index is a dict with several keys. The key we need is called "average_rating". Value is a string
     # containing a number in the format "x.xx"
