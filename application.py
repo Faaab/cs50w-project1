@@ -8,6 +8,9 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+import requests
+import urllib.parse
+
 app = Flask(__name__)
 
 # Check for environment variable
@@ -158,14 +161,24 @@ def book(id):
     info on the book. Once implemented, this page will also display the average score of the book
     on Goodreads, display a form to leave a review, and display all existing reviews for the book."""
 
+    # Get data about book from database
     result = db.execute("SELECT isbn, title, author, year FROM books WHERE id = :id",
     {"id": id})
 
-    #DEBUG print statements
+    # Store data in list book_data
     for row in result:
         book_data = row
-        print(book_data)
-    print(id)
+
+    # TODO: Query Goodreads API for average score and append to book_data, then modify book.html to
+    # support new data
+    # TODO: Template URL for querying Goodreads API:
+    # "https://www.goodreads.com/book/review_counts.json?isbns=" + book_isbn + "&key=" + my_developer_key
+    # Response JSON structure: Dict with one key 'books'. Value of 'books' is a list of books. Each
+    # index is a dict with several keys. The key we need is called "average_rating". Value is a string
+    # containing a number in the format "x.xx"
+
+    # NB: Don't forget to implement error handling. We'll get status 422 in the HTTP response
+    # if no ISBNS are specified, and 404 if nothing was found.
 
     return render_template("book.html", book_data=book_data)
 
