@@ -158,39 +158,50 @@ def search():
     # Give result_list to the Jinja template, which will create a list of search results
     return render_template("search.html", result_list=result_list)
 
-@app.route("/book/<id>")
+@app.route("/book/<id>" methods=["GET", "POST"])
 def book(id):
-    """This will take the id of a book, search for that id in our database and return a page with
+    """The GET-method for this page will take the id of a book, search for that id in our database and return a page with
     info on the book. Part of that info is an average score on Goodreads. This data is retrieved
     using a query to the Goodreads API. Once implemented, this page will also display a form to
-    leave a review, and display all existing reviews for the book."""
+    leave a review, and display all existing reviews for the book.
+    The POST-method for this route will submit the user's review, and redirect the user to this same
+    route via GET."""
 
-    # Get data about book from database
-    result = db.execute("SELECT isbn, title, author, year FROM books WHERE id = :id",
-    {"id": id})
+    # TODO
+    if request.method == "POST":
+        #Submitting user review goes here
+        return "TODO"
 
-    # Store isbn, title, author, year (in that order) in book_data
-    for row in result:
-        book_data = dict(row)
+    # Branch for
+    else:
+        # Get data about book from database
+        result = db.execute("SELECT isbn, title, author, year FROM books WHERE id = :id",
+        {"id": id})
 
-    # Build a URL to query Goodreads API (book.review_counts function), using ISBN and the globally
-    # defined developer key as parameters
-    base_url = "https://www.goodreads.com/book/review_counts.json?"
-    query_parameters = {"isbns": book_data['isbn'], "key": developer_key}
-    full_url = base_url + urllib.parse.urlencode(query_parameters)
+        # Store isbn, title, author, year (in that order) in book_data
+        for row in result:
+            book_data = dict(row)
 
-    # Make HTTP request to the URL built above
-    json_data = requests.get(full_url).json()
+        # Build a URL to query Goodreads API (book.review_counts function), using ISBN and the globally
+        # defined developer key as parameters
+        base_url = "https://www.goodreads.com/book/review_counts.json?"
+        query_parameters = {"isbns": book_data['isbn'], "key": developer_key}
+        full_url = base_url + urllib.parse.urlencode(query_parameters)
 
-    # Get data we need (average_rating) from the JSON response
-    average_rating = json_data['books'][0]['average_rating']
-    number_ratings = json_data['books'][0]['work_ratings_count']
-    if not average_rating:
-        average_rating = "Not found"
-    book_data['average_rating'] = average_rating
-    book_data['number_ratings'] = number_ratings
+        # Make HTTP request to the URL built above
+        json_data = requests.get(full_url).json()
 
-    return render_template("book.html", book_data=book_data)
+        # Get data we need (average_rating) from the JSON response
+        average_rating = json_data['books'][0]['average_rating']
+        number_ratings = json_data['books'][0]['work_ratings_count']
+        if not average_rating:
+            average_rating = "Not found"
+        if not number_ratings:
+            number_ratings = "Not found"
+        book_data['average_rating'] = average_rating
+        book_data['number_ratings'] = number_ratings
+
+        return render_template("book.html", book_data=book_data)
 
 @app.route("/loginhome")
 @login_required
