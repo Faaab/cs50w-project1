@@ -14,6 +14,26 @@ Book_data is a dict with keys: title, author, year, isbn, average_rating, number
     Average Goodreads rating: {{ book_data['average_rating'] }}<br>
     Number of ratings: {{ book_data['number_ratings'] }}<br>
     <br>
+    <form action="/book/{{ book_data['id'] }}" method="post">
+      <div class="form-group">
+
+        <label for="rating">Rate this book!</label>
+        <select class="form-control" name="rating" id="rating">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+
+        <label for="review">What did you think of this book?</label>
+        <textarea class="form-control" rows="3" autocomplete="off" name="review_text" id="review">
+        </textarea>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
+
+      </div>
+    </form>
     TODO:<br>
     Leave a review<br>
     Read reviews</h5>

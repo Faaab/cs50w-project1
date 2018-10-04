@@ -167,12 +167,40 @@ def book(id):
     The POST-method for this route will submit the user's review, and redirect the user to this same
     route via GET."""
 
-    # TODO
+    # TODO Branch for submitting user review
     if request.method == "POST":
-        #Submitting user review goes here
-        return "TODO"
+        # TODO: Submitting user review goes here. Note that book id is a parameter to this function.
 
-    # Branch for
+        # Search for reviews on this book by this author
+        result = db.execute("SELECT * FROM reviews WHERE author = :user AND book_id = :id",
+        {"user": session["user"], "id": id })
+
+        # Branch for if there are no reviews on this book by this author
+        if not result:
+            # Get all data from submitted form
+            rating = request.form.get("rating")
+            review_text = request.form.get("review_text")
+
+            print("(DEBUG) All info to store in DB:")
+            print(id)
+            print(session["user"])
+            print(rating)
+            print(review_text)
+
+            # add review to database
+            db.execute("INSERT INTO reviews (book_id, author, rating, review) VALUES (:book_id, :author, :rating, :review)",
+            {"book_id": id,  "author": session["user"], "rating": rating, "review": review_text})
+            print("(DEBUG) INSERT into table reviews done")
+
+        else:
+            # TODO I think I might want to add an optional 'error' variable to book.html that I
+            # would use in this case. Possibly an if-statement above the review form.
+            return "You already reviewed this book."
+
+        # # DEBUG return value
+        return "TODO. Review content: " + request.form.get("review_text")
+
+    # Branch for displaying book data
     else:
         # Get data about book from database
         result = db.execute("SELECT isbn, title, author, year FROM books WHERE id = :id",
