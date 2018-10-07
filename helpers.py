@@ -57,6 +57,6 @@ def get_review_counts(isbn):
         number_ratings = "Not found"
 
     # Store data in dict
-    review_counts_result = {'average_rating': average_rating, 'number_ratings', number_ratings}
+    review_counts_result = {'average_rating': average_rating, 'number_ratings': number_ratings}
 
     return review_counts_result
