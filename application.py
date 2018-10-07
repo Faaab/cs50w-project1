@@ -3,6 +3,8 @@ import sys
 
 from helpers import hash_password, check_password, login_required, get_review_counts
 
+import json
+
 from flask import Flask, session, render_template, request, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
@@ -235,8 +237,21 @@ def api(isbn):
 
     # Store result of SELECT-query in a dict
     book_data = dict(result.first())
+    book_data['isbn'] = isbn
 
-    return isbn
+    # Query Goodreads API for data on book ratings
+    review_counts_result = get_review_counts(isbn)
+
+    # Store data from Goodreads in book_data
+    book_data['average_score'] = review_counts_result['average_rating']
+    book_data['review_count'] = review_counts_result['number_ratings']
+
+    print(book_data)
+
+    # Convert book_data dict into JSON string
+    book_json = json.dumps(book_data, )
+
+    return book_json
 
 @app.route("/loginhome")
 @login_required
