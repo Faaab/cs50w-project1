@@ -244,6 +244,11 @@ def book(id):
 
         return render_template("book.html", book_data=book_data, review_rows=review_rows)
 
+@app.route("/api/<isbn>")
+def api(isbn):
+
+    return isbn
+
 @app.route("/loginhome")
 @login_required
 def loginhome():
