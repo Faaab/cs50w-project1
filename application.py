@@ -176,9 +176,11 @@ def book(id):
         {"user": session["user"], "id": id })
         print("RESULT: ")
         print(result)
-        for row in result:
-            print("ROWS: ")
-            print(row)
+        userreview = result.first()
+
+        # DEBUG:
+        print('USERREVIEW EXISTS?:')
+        print(userreview)
 
         #NB: result does exist, but it has no rows. How do I handle this?
         # 1. Find out how to check for no rows. Maybe assign the value of executing result.first()
@@ -186,7 +188,7 @@ def book(id):
         # 2. Change control flow statements belows, since 'if not result' does not have the effect I want.
 
         # Branch for if there are no reviews on this book by this author
-        if not result:
+        if not userreview:
             # Get all data from submitted form
             rating = request.form.get("rating")
             review_text = request.form.get("review_text")
@@ -198,9 +200,10 @@ def book(id):
             print(review_text)
 
             # add review to database
-            db.execute("INSERT INTO reviews (book_id, author, rating, review) VALUES (:book_id, :author, :rating, :review)",
-            {"book_id": id,  "author": session["user"], "rating": rating, "review": review_text})
+            db.execute("INSERT INTO reviews (book_id, author, rating, review_text) VALUES (:book_id, :author, :rating, :review_text)",
+            {"book_id": id,  "author": session["user"], "rating": rating, "review_text": review_text})
             print("(DEBUG) INSERT into table reviews done")
+            db.commit()
 
         else:
             # TODO I think I might want to add an optional 'error' variable to book.html that I
