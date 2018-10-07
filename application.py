@@ -174,6 +174,16 @@ def book(id):
         # Search for reviews on this book by this author
         result = db.execute("SELECT * FROM reviews WHERE author = :user AND book_id = :id",
         {"user": session["user"], "id": id })
+        print("RESULT: ")
+        print(result)
+        for row in result:
+            print("ROWS: ")
+            print(row)
+
+        #NB: result does exist, but it has no rows. How do I handle this?
+        # 1. Find out how to check for no rows. Maybe assign the value of executing result.first()
+        # to a variable, and then checking that with 'if not'
+        # 2. Change control flow statements belows, since 'if not result' does not have the effect I want.
 
         # Branch for if there are no reviews on this book by this author
         if not result:
