@@ -247,6 +247,13 @@ def book(id):
 @app.route("/api/<isbn>")
 def api(isbn):
 
+    # Get info on book title, author and year of publication from database
+    result = db.execute("SELECT title, author, year FROM books WHERE isbn = :isbn",
+    {"isbn": isbn})
+
+    # Store result of SELECT-query in a dict
+    book_data = dict(result.first())
+
     return isbn
 
 @app.route("/loginhome")
