@@ -1,20 +1,14 @@
 import os
 import sys
 
-from helpers import hash_password, check_password, login_required
+from helpers import hash_password, check_password, login_required, get_review_counts
 
 from flask import Flask, session, render_template, request, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-import requests
-import urllib.parse
-
 app = Flask(__name__)
-
-# key for querying Goodreads API
-developer_key = 'eBVKMxIKL8SGityQc5TOg'
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -213,24 +207,12 @@ def book(id):
         # add book id to book_data
         book_data['id'] = id
 
-        # Build a URL to query Goodreads API (book.review_counts function), using ISBN and the globally
-        # defined developer key as parameters
-        base_url = "https://www.goodreads.com/book/review_counts.json?"
-        query_parameters = {"isbns": book_data['isbn'], "key": developer_key}
-        full_url = base_url + urllib.parse.urlencode(query_parameters)
+        # Query Goodreads for info on the book
+        review_counts_result = get_review_counts(book_data['isbn'])
 
-        # Make HTTP request to the URL built above
-        json_data = requests.get(full_url).json()
-
-        # Get data we need (average_rating) from the JSON response
-        average_rating = json_data['books'][0]['average_rating']
-        number_ratings = json_data['books'][0]['work_ratings_count']
-        if not average_rating:
-            average_rating = "Not found"
-        if not number_ratings:
-            number_ratings = "Not found"
-        book_data['average_rating'] = average_rating
-        book_data['number_ratings'] = number_ratings
+        # Store results from query in book_data
+        book_data['average_rating'] = review_counts_result['average_rating']
+        book_data['number_ratings'] = review_counts_result['number_ratings']
 
         # Get all reviews on this book from reviews table
         result = db.execute("SELECT author, rating, review_text FROM reviews WHERE book_id = :id",
