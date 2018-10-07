@@ -205,6 +205,12 @@ def book(id):
             print("(DEBUG) INSERT into table reviews done")
             db.commit()
 
+            # Make URL to redirect user back to updated book-page
+            this_book_url = "/book/" + id
+
+            # redirect user to updated book page
+            return redirect(this_book_url)
+
         else:
             # TODO I think I might want to add an optional 'error' variable to book.html that I
             # would use in this case. Possibly an if-statement above the review form.
