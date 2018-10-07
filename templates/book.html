@@ -1,5 +1,6 @@
 <!--
 Book_data is a dict with keys: title, author, year, isbn, average_rating, number_ratings
+review_rows is a list of dicts. Each dict has the keys: 'author', 'rating', 'review_text'
 -->
 
 {% extends 'loggedin.html' %}
@@ -34,7 +35,20 @@ Book_data is a dict with keys: title, author, year, isbn, average_rating, number
 
       </div>
     </form>
-    TODO:<br>
-    Read reviews</h5>
-  </center>
+    <br>
+    User reviews:</h5>
+    </center>
+    {% if review_rows|length > 0 %}
+      <ul class="list-group">
+        {% for review in review_rows %}
+          <li class="list-group-item">
+            Reviewer: {{ review['author'] }}<br>
+            Rating: {{ review['rating'] }}<br>
+            {{ review['review_text'] }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <h5>None. Be the first to leave a review!</h5>
+    {% endif %}
 {% endblock %}

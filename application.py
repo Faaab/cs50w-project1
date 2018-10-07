@@ -241,7 +241,7 @@ def book(id):
         for row in result:
             review_rows.append(dict(row))
 
-        return render_template("book.html", book_data=book_data)
+        return render_template("book.html", book_data=book_data, review_rows=review_rows)
 
 @app.route("/loginhome")
 @login_required
