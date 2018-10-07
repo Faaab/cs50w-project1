@@ -112,7 +112,8 @@ def register():
 
         # Check whether we have an entry with that username
         userrow = db.execute("SELECT * FROM users WHERE username = :username", {"username": username})
-        if not userrow:
+        user_exists = userrow.first()
+        if not user_exists:
             # If we do not have an entry with that username, store the username and hashed password in the database
             hashedPassword = hash_password(password)
             db.execute("INSERT INTO users (username, passwordhash) VALUES (:username, :hashedPassword)",
