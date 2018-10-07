@@ -183,8 +183,7 @@ def book(id):
             review_text = request.form.get("review_text")
 
             # add review to database
-            db.execute("INSERT INTO reviews (book_id, author, rating, review_text) VALUES
-                        (:book_id, :author, :rating, :review_text)",
+            db.execute("INSERT INTO reviews (book_id, author, rating, review_text) VALUES (:book_id, :author, :rating, :review_text)",
             {"book_id": id,  "author": session["user"], "rating": rating, "review_text": review_text})
             db.commit()
 
@@ -200,7 +199,7 @@ def book(id):
             # would use in this case. Possibly an if-statement above the review form.
             return "You already reviewed this book."
 
-    # Branch for displaying book data
+    # GET-route for displaying book data
     else:
         # Get data about book from database
         result = db.execute("SELECT isbn, title, author, year FROM books WHERE id = :id",
@@ -231,6 +230,16 @@ def book(id):
             number_ratings = "Not found"
         book_data['average_rating'] = average_rating
         book_data['number_ratings'] = number_ratings
+
+        # Get all reviews on this book from reviews table
+        result = db.execute("SELECT author, rating, review_text FROM reviews WHERE book_id = :id",
+                            {"id": id})
+
+        # Store all rows in a list of dicts
+        review_rows = []
+
+        for row in result:
+            review_rows.append(dict(row))
 
         return render_template("book.html", book_data=book_data)
 
