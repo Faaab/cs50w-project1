@@ -167,10 +167,8 @@ def book(id):
     The POST-method for this route will submit the user's review, and redirect the user to this same
     route via GET."""
 
-    # TODO Branch for submitting user review
+    # POST-branch for submitting user review
     if request.method == "POST":
-        # TODO: Submitting user review goes here. Note that book id is a parameter to this function.
-
         # Search for reviews on this book by this author
         result = db.execute("SELECT * FROM reviews WHERE author = :user AND book_id = :id",
         {"user": session["user"], "id": id })
@@ -178,31 +176,16 @@ def book(id):
         print(result)
         userreview = result.first()
 
-        # DEBUG:
-        print('USERREVIEW EXISTS?:')
-        print(userreview)
-
-        #NB: result does exist, but it has no rows. How do I handle this?
-        # 1. Find out how to check for no rows. Maybe assign the value of executing result.first()
-        # to a variable, and then checking that with 'if not'
-        # 2. Change control flow statements belows, since 'if not result' does not have the effect I want.
-
-        # Branch for if there are no reviews on this book by this author
+        # If there are no reviews on this book by this user, commit it to the reviews table
         if not userreview:
             # Get all data from submitted form
             rating = request.form.get("rating")
             review_text = request.form.get("review_text")
 
-            print("(DEBUG) All info to store in DB:")
-            print(id)
-            print(session["user"])
-            print(rating)
-            print(review_text)
-
             # add review to database
-            db.execute("INSERT INTO reviews (book_id, author, rating, review_text) VALUES (:book_id, :author, :rating, :review_text)",
+            db.execute("INSERT INTO reviews (book_id, author, rating, review_text) VALUES
+                        (:book_id, :author, :rating, :review_text)",
             {"book_id": id,  "author": session["user"], "rating": rating, "review_text": review_text})
-            print("(DEBUG) INSERT into table reviews done")
             db.commit()
 
             # Make URL to redirect user back to updated book-page
@@ -212,12 +195,10 @@ def book(id):
             return redirect(this_book_url)
 
         else:
-            # TODO I think I might want to add an optional 'error' variable to book.html that I
+            # Optional TODO:
+            # I think I might want to add an optional 'error' variable to book.html that I
             # would use in this case. Possibly an if-statement above the review form.
             return "You already reviewed this book."
-
-        # # DEBUG return value
-        return "TODO. Review content: " + request.form.get("review_text")
 
     # Branch for displaying book data
     else:
